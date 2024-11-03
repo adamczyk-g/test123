@@ -8,6 +8,11 @@ DISK_CRYPT="root-crypt"
 
 echo "Szyfrowanie partycji: $DISK"
 
+
+e2fsck -f /dev/$DISK
+resize2fs -M /dev/$DISK
+
+
 # Wykonaj szyfrowanie
 echo "Rozpoczynanie szyfrowania partycji $DISK..."
 cryptsetup-reencrypt $DISK --new --reduce-device-size 16M --type=luks1 --name $DISK_CRYPT
@@ -26,6 +31,7 @@ cryptsetup open $DISK $DISK_CRYPT
 
 # Dostosowanie systemu plików
 echo "Dostosowywanie systemu plików..."
+e2fsck -f /dev/mapper/$DISK_CRYPT
 resize2fs /dev/mapper/$DISK_CRYPT
 
 # Montowanie katalogów w chroot
