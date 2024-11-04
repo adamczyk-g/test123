@@ -9,13 +9,13 @@ DISK_CRYPT="root-crypt"
 echo "Szyfrowanie partycji: $DISK"
 
 
-e2fsck -f /dev/$DISK
-resize2fs -M /dev/$DISK
+e2fsck -f $DISK
+resize2fs -M $DISK
 
 
 # Wykonaj szyfrowanie
 echo "Rozpoczynanie szyfrowania partycji $DISK..."
-cryptsetup reencrypt --encrypt --reduce-device-size 16M --type=luks1 $DISK_CRYPT
+cryptsetup reencrypt --encrypt --reduce-device-size 16M --type=luks1 $DISK
 
 # Sprawdzenie, czy operacja się powiodła
 if [ $? -ne 0 ]; then
