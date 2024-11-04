@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Zmienna do przechowywania nazwy dysku
-DISK=$(df / | tail -1 | awk '{print $1}')
+DISK="/dev/sda2"
 
 # Zmienna do przechowywania nazwy zaszyfrowanej partycji
 DISK_CRYPT="root-crypt"
@@ -15,7 +15,7 @@ resize2fs -M /dev/$DISK
 
 # Wykonaj szyfrowanie
 echo "Rozpoczynanie szyfrowania partycji $DISK..."
-cryptsetup-reencrypt $DISK --new --reduce-device-size 16M --type=luks1 --name $DISK_CRYPT
+cryptsetup reencrypt --encrypt --reduce-device-size 16M --type=luks1 $DISK_CRYPT
 
 # Sprawdzenie, czy operacja się powiodła
 if [ $? -ne 0 ]; then
@@ -64,8 +64,7 @@ echo "/dev/mapper/$DISK_CRYPT / ext4 defaults 0 1" >> /etc/fstab
 # Modyfikacja /etc/default/grub
 echo "GRUB_ENABLE_CRYPTODISK=y" >> /etc/default/grub
 
-# Zainstalowanie GRUB na odpowiednim dysku
-echo "Instalowanie GRUB na $DISK..."
+# Zainstalowanie GRUB
 grub-install /dev/sda
 
 # Aktualizacja konfiguracji GRUB i initramfs
