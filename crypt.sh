@@ -47,7 +47,8 @@ mount --bind /proc /mnt/proc
 
 # Wejście do chroot
 echo "Wejście do środowiska chroot..."
-chroot /mnt
+chroot /mnt /bin/bash << 'EOF'
+echo 'Hello from chroot!'
 
 # Modyfikacja /etc/crypttab
 UUID=$(blkid -s UUID -o value $DISK)
@@ -73,6 +74,7 @@ update-initramfs -k all -c
 
 #wyjscie z chroot
 exit
+EOF
 
 #zamknięcie partycji root
 cryptsetup close $DISK_CRYPT
