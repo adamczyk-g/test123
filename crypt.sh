@@ -36,7 +36,7 @@ resize2fs /dev/mapper/$DISK_CRYPT
 
 # Montowanie zaszyfrowanej partycji
 echo "Montowanie zaszyfrowanej partycji..."
-mount /dev/mapper/$DISK_CRYPT /mnt/dev
+mount /dev/mapper/$DISK_CRYPT /mnt
 
 # Montowanie katalogów w chroot
 echo "Montowanie niezbędnych katalogów..."
