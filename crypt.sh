@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Zmienna do przechowywania nazwy dysku
-DISK="/dev/sda2"
+DISK="/dev/sda1"
 
 # Zmienna do przechowywania nazwy zaszyfrowanej partycji
 DISK_CRYPT="root-crypt"
@@ -56,16 +56,15 @@ cat /mnt/etc/crypttab
 
 # Modyfikacja /etc/fstab
 echo "Zakomentowanie istniejącej linii dotyczącej partycji root w /etc/fstab..."
-sed -i.bak "/$(echo $DISK | sed 's/\/dev\///')/s/^/#/" /mnt/etc/fstab
+#sed -i.bak "/$(echo $DISK | sed 's/\/dev\///')/s/^/#/" /mnt/etc/fstab
+sed -i '/^\/dev\/sda1/ s/^/#/' /etc/fstab
+
 # Dodanie nowej linii do /etc/fstab
 echo "/dev/mapper/$DISK_CRYPT / ext4 defaults 0 1" >> /mnt/etc/fstab
 cat /mnt/etc/fstab
 # Modyfikacja /etc/default/grub
 echo "GRUB_ENABLE_CRYPTODISK=y" >> /mnt/etc/default/grub
 ###
-###
-###
-
 
 # Wejście do chroot
 echo "Wejście do środowiska chroot..."
