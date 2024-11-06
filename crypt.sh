@@ -23,7 +23,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-echo "Szyfrowanie zakończone pomyślnie."
+echo "Szyfrowanie zakończone."
 
 # Otwórz zaszyfrowaną partycję
 echo "Otwieranie zaszyfrowanej partycji..."
@@ -45,8 +45,6 @@ mount --bind /dev/pts /mnt/dev/pts
 mount --bind /sys /mnt/sys
 mount --bind /proc /mnt/proc
 
-#
-#
 # Modyfikacja /etc/crypttab
 UUID=$(blkid -s UUID -o value $DISK)
 echo "UUID=$UUID"
@@ -81,11 +79,11 @@ update-initramfs -k all -c
 exit
 EOF
 
+echo "odmontowanie /mnt"
+
 umount /mnt
 
 #zamknięcie partycji root
 cryptsetup close $DISK_CRYPT
 
-# Informacja końcowa
-echo "Skonfigurowano /etc/crypttab, zakomentowano istniejącą linię w /etc/fstab oraz zaktualizowano GRUB."
 echo "Pamiętaj, aby zrestartować system."
