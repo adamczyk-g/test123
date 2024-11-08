@@ -8,7 +8,7 @@ DISK_CRYPT="root-crypt"
 
 echo "Szyfrowanie partycji: $DISK" 
 
-e2fsck -f $DISK
+e2fsck -f -p $DISK
 resize2fs -M $DISK
 
 # Wykonaj szyfrowanie
