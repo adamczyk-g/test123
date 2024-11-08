@@ -29,7 +29,7 @@ cryptsetup open $DISK $DISK_CRYPT
 
 # Dostosowanie systemu plików
 echo "Dostosowywanie systemu plików..." 
-e2fsck -f /dev/mapper/$DISK_CRYPT
+e2fsck -f -p /dev/mapper/$DISK_CRYPT
 resize2fs /dev/mapper/$DISK_CRYPT
 
 # Montowanie zaszyfrowanej partycji
@@ -48,7 +48,7 @@ UUID=$(blkid -s UUID -o value $DISK)
 echo "UUID=$UUID" 
 echo "DISK_CRYPT=$DISK_CRYPT" 
 #echo "$DISK_CRYPT UUID=$UUID none luks" >> /mnt/etc/crypttab
-echo "$DISK_CRYPT #DISK none luks" >> /mnt/etc/crypttab
+echo "$DISK_CRYPT $DISK none luks" >> /mnt/etc/crypttab
 cat /mnt/etc/crypttab
 
 # Modyfikacja /etc/fstab
