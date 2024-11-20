@@ -53,8 +53,7 @@ cat /mnt/etc/crypttab
 
 # Modyfikacja /etc/fstab
 echo "Zakomentowanie istniejącej linii dotyczącej partycji root w /etc/fstab..." 
-#sed -i.bak "/$(echo $DISK | sed 's/\/dev\///')/s/^/#/" /mnt/etc/fstab
-sed -i '/^\/dev\/sda1/ s/^/#/' /mnt/etc/fstab
+sed -i '/\/ ext4/ s/^/#/'
 
 # Dodanie nowej linii do /etc/fstab
 echo "/dev/mapper/$DISK_CRYPT / ext4 defaults 0 1" >> /mnt/etc/fstab
@@ -78,11 +77,9 @@ update-initramfs -k all -c
 exit
 EOF
 
-echo "odmontowanie /mnt" 
-
-umount /mnt
-
+#echo "odmontowanie /mnt" 
+#umount /mnt
 #zamknięcie partycji root
-cryptsetup close $DISK_CRYPT
+#cryptsetup close $DISK_CRYPT
 
 echo "Pamiętaj, aby zrestartować system." 
