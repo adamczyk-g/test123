@@ -53,7 +53,7 @@ cat /mnt/etc/crypttab
 
 # Modyfikacja /etc/fstab
 echo "Zakomentowanie istniejącej linii dotyczącej partycji root w /etc/fstab..." 
-sed -i '/\/ ext4/ s/^/#/'
+sed -i '/\/ ext4/ s/^/#/' /mnt/etc/fstab
 
 # Dodanie nowej linii do /etc/fstab
 echo "/dev/mapper/$DISK_CRYPT / ext4 defaults 0 1" >> /mnt/etc/fstab
