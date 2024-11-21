@@ -8,11 +8,10 @@ chown root:root /etc/restricted/luks.key
 chmod 400 /etc/restricted/luks.key
 
 cat << 'EOF' > /etc/initramfs-tools/hooks/pre-crypttab
-
 #!/bin/sh
 . /usr/share/initramfs-tools/hook-functions
 copy_exec /etc/restricted/luks.key /cryptroot/luks.key
-cp /etc/crypttab "${DESTDIR}/cryptroot/crypttab"
+copy_exec /etc/crypttab "${DESTDIR}/cryptroot/crypttab"
 exit 0
 EOF
 
