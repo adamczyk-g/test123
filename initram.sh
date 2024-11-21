@@ -11,7 +11,7 @@ cat << 'EOF' > /etc/initramfs-tools/hooks/cp-crypttab-and-key
 #!/bin/sh
 . /usr/share/initramfs-tools/hook-functions
 copy_exec /cryptroot/luks.key /cryptroot/luks.key
-copy_exec /etc/crypttab "${DESTDIR}/cryptroot/crypttab"
+cp /etc/crypttab "${DESTDIR}/cryptroot/crypttab"
 exit 0
 EOF
 
@@ -19,6 +19,11 @@ chmod +x /etc/initramfs-tools/hooks/cp-crypttab-and-key
 
 update-initramfs -u
 
+
 echo "Pamiętaj, aby zrestartować system."
 
 #cryptsetup luksOpen /dev/sda2 root-crypt
+
+                              
+# <target name> <source device>         <key file>      <options>
+#root-crypt /dev/sda2 /cryptroot/luks.key luks
